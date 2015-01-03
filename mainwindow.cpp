@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //updateSwitch = false;
     connect(ui->buttonCreate, SIGNAL(clicked()), this, SLOT(createItem()));
     connect(ui->buttonRead, SIGNAL(clicked()), this, SLOT(loadFile()));
     connect(ui->buttonSave, SIGNAL(clicked()), this, SLOT(saveFile()));
@@ -135,7 +134,6 @@ void MainWindow::setupFlowers(int textureType, QString levelStr, int type, QStri
     int num = 0;
     while(1){
         stream >> num;
-        cout << "steream_num" << num << endl;
         level[cnt] = num;
         cnt++;
         if(cnt > 18 || cnt > levels){
@@ -151,18 +149,11 @@ void MainWindow::setupFlowers(int textureType, QString levelStr, int type, QStri
 
 
 void MainWindow::keyPressEvent(QKeyEvent *e){
-    //setFocusProxy(this);
-    //ui->widget->keyPressEvent(e);
-    //std::cout << "MainWindow focus" <<hasFocus() << std::endl;
     ui->widget->keyPressEvent2(e);
-    //e->ignore();
 }
 
 
 void MainWindow::keyReleaseEvent(QKeyEvent *e){
-    //std::cout << "MainWindow focus" <<hasFocus() << std::endl;
-    //e->ignore();
-    //setFocusProxy(this);
    ui->widget->keyReleaseEvent2(e);
 }
 
