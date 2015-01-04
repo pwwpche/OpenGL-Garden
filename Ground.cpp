@@ -165,6 +165,7 @@ float Ground::getPlantHeight(float x, float z){
                 int colCnt = plantAreaSize[i][0];
                 int index = ((z - plantAreas[i][1]) * PLANT_PRECISION * colCnt) + (x - plantAreas[i][0]) * PLANT_PRECISION;
                 if(plantHeightMap[i][index] > result){
+                    cout << "Found" << endl;
                     result = plantHeightMap[i][index] + (float)needFlakeMap[i][index] / 40.0 - 0.1 ;
                 }
 
@@ -240,7 +241,27 @@ void Ground::setPlantHeight(float x, float z, float height){
     return ;
 }
 
+bool Ground::plantIndexToPos(int plantIndex, int posIndex, float &x, float &z){
+    if(PLANT_PRECISION <= 10){      //No need to use this function
+        return false;
+    }
 
+    if(plantIndex > plantAreas.size()){     //This plant does not exist
+        return false;
+    }
+    int colCount = plantAreaSize[plantIndex][0];
+    int rowCount = plantAreaSize[plantIndex][1];
+    if(posIndex > rowCount * colCount){     //Position index is outside plant area
+        return false;
+    }
+
+    float startX = plantAreas[plantIndex][0];
+    float startZ = plantAreas[plantIndex][1];
+
+    z = (float)posIndex / (float)colCount / (float)PLANT_PRECISION + startZ;
+    x = (float)(posIndex % colCount) / (float)PLANT_PRECISION + startX;
+    return true;
+}
 
 int Ground::plantFlake(float x, float z, int incr, int plantIndex){
     if(PLANT_PRECISION > 10){
@@ -281,13 +302,18 @@ int Ground::plantFlake(float x, float z, int incr, int plantIndex){
             return -1;
         }else{
             //Plant found, draw flakes on it and increase flake height
-//            float currentHeight = heightBuffer(x, z);
             int currentFlake = 0;
             if( needFlakeMap[rectIndex][plantPosIndex] > 0){
                 needFlakeMap[rectIndex][plantPosIndex]+= incr;
                 currentFlake = needFlakeMap[rectIndex][plantPosIndex];
+                if(snowPosition.size() < rectIndex + 1){
+                    snowPosition.resize(rectIndex + 1);
+                    snowPosition[rectIndex].insert( pair< int , float > (plantPosIndex, getPlantHeight(x, z)));
+                }else{
+                    snowPosition[rectIndex][plantPosIndex] = getPlantHeight(x, z);
+                }
             }
-			if(incr == 0){
+            if(incr == 0){      //Just get the flake number, don't increase snow onto it.
 				return needFlakeMap[rectIndex][plantPosIndex];
 			}
             //Avalanching

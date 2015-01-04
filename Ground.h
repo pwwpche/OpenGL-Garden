@@ -11,6 +11,7 @@
 #include <vector>
 #include <time.h>
 #include <ctime>
+#include <map>
 using namespace std;
 //Height map predefs
 
@@ -38,10 +39,14 @@ public:
     Ground(int x = 0, int y = 0, int z = 0, int size = 1 << 8);
 	void LoadRawFile(LPSTR strName, int nSize);
     inline GLfloat groundHeight(GLfloat x, GLfloat y, bool getAccurate = false, bool isCamera = false);
+
     float getPlantHeight(float x, float z);
     void setPlantArea(float startX, float startZ, float endX, float endZ);
     void setPlantHeight(float x, float z, float height);
+    bool plantIndexToPos(int plantIndex, int posIndex, float &x, float &z);
     int plantFlake(float x, float z, int incr = 0, int plantIndex = -1);
+    const vector<map<int, float> >& getSnowPosition(){return snowPosition;}
+
 	void draw();
     void setMeltingSpeed(int val);
     void setTexture(GLuint texture, GLuint _snowTexture);
@@ -112,6 +117,7 @@ private:
     //Plant Height
     float* plantHeight;
     char *needFlake;
+    vector<map<int, float> > snowPosition;
     inline int posToPlantIndex(int plant, float x, float z);
     vector<glm::vec4> plantAreas;
     vector<glm::vec2> plantAreaSize;

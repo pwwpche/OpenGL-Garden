@@ -124,62 +124,88 @@ void Snow::draw(Wind &wind,Ground& ground){
 
         Flake& currentFlake = *it;
         count++;
-        if(currentFlake.x > areaSize ||
+        if(currentFlake.x > areaSize ||         //Flake is outside this area
             currentFlake.x < -areaSize ||
             currentFlake.z > areaSize ||
             currentFlake.z < -areaSize )
         {
             if(count < flakeCount){
                 GLfloat x, y, z;
-                generateSnowPos(x, y, z);
+                generateSnowPos(x, y, z);           //Regenerate this flake
                 currentFlake.setPosition(x, y, z);
             }else{
                 continue;
             }
         }
 
-
+        //Draw current flake
         glVertex3f(currentFlake.x, currentFlake.y, currentFlake.z);
-
-
+        //Flake is falling
         currentFlake.fall(wind);
 
         bool fallen = (currentFlake.y < ground.getPlantHeight(currentFlake.x, currentFlake.z));
-        if(fallen){			
+        if(fallen){			//Detect if snow has fallen to the ground
 			bool validFall = true;
             if(count < flakeCount ){
                 float groundPlantHeight = ground.getPlantHeight(currentFlake.x, currentFlake.z);
                 float groundBaseHeight = ground.groundHeight(currentFlake.x, currentFlake.z, true);
                 if(currentFlake.y >  groundBaseHeight &&
-                    currentFlake.y < groundPlantHeight - 0.5){
-						//cout << "Flake Error: x=" << currentFlake.x <<  " z=" << currentFlake.z << endl;
-						validFall = false;
+                    currentFlake.y < groundPlantHeight - 0.5){      //This flake falls onto some weird place...
+                        validFall = false;      //Don't draw it...
                 }
-                int flakeCnt = ground.plantFlake(currentFlake.x, currentFlake.z);
-                if( flakeCnt > 0 && validFall){
 
-                    currentFlake.y  = groundPlantHeight;
+                int flakeCnt = ground.plantFlake(currentFlake.x, currentFlake.z);       //Get the number of flakes at this position (somewhere on a plant)
+                if( flakeCnt > 0 && validFall){
+                    currentFlake.y  = groundPlantHeight;        //Draw this flake()
                     if(plantFlakeCnt < FLAKE_ON_TREE){
                         plantFlake[plantFlakeCnt++] = currentFlake;
                     }
                 }
+                //Tell gound to accumulate snow
                 ground.accumulate(currentFlake.x, currentFlake.z);
 
+                //Respawn a flake by putting it in the sky again
                 GLfloat x, y, z;
                 generateSnowPos(x, y, z);
                 currentFlake.setPosition(x, y, z);
             }else{
+                //Just leave the flake information in the memory, and don't draw it...
                 currentFlake.setPosition(areaSize + 100, areaSize + 100, areaSize + 100);
             }
 		}        
     }
-    for(float x = -3 ; x < 3 ; x += 0.03){
-        for(float z = -3 ; z < 3 ; z += 0.03){
-            float height = ground.getPlantHeight(x, z) ;
 
-            //glVertex3f(x, height , z);
+    vector<map<int, float> > snowPos = ground.getSnowPosition();
+    size_t posSize = snowPos.size();
+    for(size_t i = 0 ; i < posSize ; i++){
+        map<int, float>::iterator it;
+        for(it = snowPos[i].begin() ; it != snowPos[i].end() ; it++){
+            float x = -1, z = -1;
+            int plantPosIdx = it->first;
+            float plantHeight = it->second;
+            bool valid = ground.plantIndexToPos(i, plantPosIdx, x, z);
+            if(valid){
+                glVertex3f(x, plantHeight , z);
+            }
         }
     }
+
+
+/*
+    bool show = false;
+    for(float x = -3 ; x < 3 ; x += 0.03){
+        for(float z = -3 ; z < 3 ; z += 0.03){
+            if(x > 0 && z > 0 && !show) {
+                cout << "00000" << endl;
+                show = true;
+            }
+            float height = ground.getPlantHeight(x, z) ;
+            if(height > ground.groundHeight(x, z, true) + 0.5){
+                glVertex3f(x, height , z);
+            }
+        }
+    }
+    */
 /*
     for(int i = 0 ; i < plantFlakeCnt ; i++){
         Flake& currentFlake = plantFlake[i];
