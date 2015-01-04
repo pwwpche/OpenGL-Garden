@@ -175,16 +175,17 @@ void Snow::draw(Wind &wind,Ground& ground){
 		}        
     }
 
-    vector<int* > snowPos = ground.getSnowPosition();
-    vector<int> snowPosCnt = ground.getSnowPositionCnt();
+    vector<map<int, float>* > snowPos = ground.getSnowPosition();
     size_t posSize = snowPos.size();
     for(size_t i = 0 ; i < posSize ; i++){
-        for(int j = 0 ; j < snowPosCnt[i] ; j++){
+        map<int, float>::iterator it;
+
+        for(it = (*snowPos[i]).begin() ; it != (*snowPos[i]).end() ; it++){
             float x = -1, z = -1;
-            int plantPosIdx = snowPos[i][j];
+            int plantPosIdx = it->first;
+            float plantHeight = it->second;
             bool valid = ground.plantIndexToPos(i, plantPosIdx, x, z);
             if(valid){
-                float plantHeight = ground.getPlantHeight(x, z);
                 glVertex3f(x, plantHeight , z);
             }
         }

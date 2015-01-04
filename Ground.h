@@ -25,8 +25,6 @@ using namespace std;
 #define BUFFER_OFFSET BUFFER_AREA * BUFFER_PRECISION
 #define BUFFER_LINE (BUFFER_AREA * 2 * BUFFER_PRECISION + 1)
 
-#define MAX_SNOW_PER_PLANT 10000
-
 const float SNOW_PRECISION = 0.5;
 const int MAX_SNOW_AREA = 100;
 const int SNOW_OFFSET = (int)(SNOW_PRECISION * MAX_SNOW_AREA);
@@ -47,8 +45,7 @@ public:
     void setPlantHeight(float x, float z, float height);
     bool plantIndexToPos(int plantIndex, int posIndex, float &x, float &z);
     int plantFlake(float x, float z, int incr = 0, int plantIndex = -1);
-    const vector<int* >& getSnowPosition(){return snowPosition;}
-    const vector<int >& getSnowPositionCnt(){return snowPositionCnt;}
+    const vector<map<int, float>* >& getSnowPosition(){return snowPosition;}
 
 	void draw();
     void setMeltingSpeed(int val);
@@ -120,8 +117,7 @@ private:
     //Plant Height
     float* plantHeight;
     char *needFlake;
-    vector< int*> snowPosition;
-    vector<int> snowPositionCnt;
+    vector<map<int, float>* > snowPosition;
     inline int posToPlantIndex(int plant, float x, float z);
     vector<glm::vec4> plantAreas;
     vector<glm::vec2> plantAreaSize;
