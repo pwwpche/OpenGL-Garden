@@ -308,11 +308,9 @@ int Ground::plantFlake(float x, float z, int incr, int plantIndex){
                 currentFlake = needFlakeMap[rectIndex][plantPosIndex];
                 if(snowPosition.size() < rectIndex + 1){
                     snowPosition.resize(rectIndex + 1);
-                    map<int, float>* newPos = new map<int, float>;
-                    snowPosition[rectIndex] = newPos;
-                    (*snowPosition[rectIndex]).insert( pair< int , float > (plantPosIndex, getPlantHeight(x, z)));
+                    snowPosition[rectIndex].insert( pair< int , float > (plantPosIndex, getPlantHeight(x, z)));
                 }else{
-                    (*snowPosition[rectIndex])[plantPosIndex] = getPlantHeight(x, z);
+                    snowPosition[rectIndex][plantPosIndex] = getPlantHeight(x, z);
                 }
             }
             if(incr == 0){      //Just get the flake number, don't increase snow onto it.
