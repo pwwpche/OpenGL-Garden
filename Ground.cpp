@@ -165,7 +165,6 @@ float Ground::getPlantHeight(float x, float z){
                 int colCnt = plantAreaSize[i][0];
                 int index = ((z - plantAreas[i][1]) * PLANT_PRECISION * colCnt) + (x - plantAreas[i][0]) * PLANT_PRECISION;
                 if(plantHeightMap[i][index] > result){
-                    cout << "Found" << endl;
                     result = plantHeightMap[i][index] + (float)needFlakeMap[i][index] / 40.0 - 0.1 ;
                 }
 
@@ -301,6 +300,9 @@ int Ground::plantFlake(float x, float z, int incr, int plantIndex){
         if(rectIndex == -1){
             return -1;
         }else{
+			 if(incr == 0){      //Just get the flake number, don't increase snow onto it.
+				return needFlakeMap[rectIndex][plantPosIndex];
+			}
             //Plant found, draw flakes on it and increase flake height
             int currentFlake = 0;
             if( needFlakeMap[rectIndex][plantPosIndex] > 0){
@@ -309,13 +311,13 @@ int Ground::plantFlake(float x, float z, int incr, int plantIndex){
                 if(snowPosition.size() < rectIndex + 1){
                     snowPosition.resize(rectIndex + 1);
                     snowPosition[rectIndex].insert( pair< int , float > (plantPosIndex, getPlantHeight(x, z)));
+                    cout << plantPosIndex << endl;
                 }else{
+                    cout << plantPosIndex << endl;
                     snowPosition[rectIndex][plantPosIndex] = getPlantHeight(x, z);
                 }
             }
-            if(incr == 0){      //Just get the flake number, don't increase snow onto it.
-				return needFlakeMap[rectIndex][plantPosIndex];
-			}
+
             //Avalanching
             float posInterval = (1.0 / PLANT_PRECISION);
             int dist = 5;
@@ -1079,12 +1081,16 @@ void Ground::melt(){
             int randStart = rand() % areaSize;
             int meltCnt = 0;
             for(int i = randStart ; i < areaSize; i++){
-                if(meltCnt >= meltSpeed){
+                if(meltCnt >= meltSpeed / 10){
                     break;
                 }
                 if(needFlakeMap[idx][i] > 1) {
                     cout << "decreasing index " << i << endl;
                     needFlakeMap[idx][i]--;
+                    if(needFlakeMap[idx][i] == 1){
+                        snowPosition[idx].erase(snowPosition[idx].find(i));
+
+                    }
                     meltCnt++;
                 }
             }
