@@ -45,7 +45,7 @@ public:
     void setPlantHeight(float x, float z, float height);
     bool plantIndexToPos(int plantIndex, int posIndex, float &x, float &z);
     int plantFlake(float x, float z, int incr = 0, int plantIndex = -1);
-    const vector<map<int, float> >& getSnowPosition(){return snowPosition;}
+    const vector<map<int, float>* >& getSnowPosition(){return snowPosition;}
 
 	void draw();
     void setMeltingSpeed(int val);
@@ -117,7 +117,7 @@ private:
     //Plant Height
     float* plantHeight;
     char *needFlake;
-    vector<map<int, float> > snowPosition;
+    vector<map<int, float>* > snowPosition;
     inline int posToPlantIndex(int plant, float x, float z);
     vector<glm::vec4> plantAreas;
     vector<glm::vec2> plantAreaSize;
