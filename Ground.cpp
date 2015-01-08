@@ -3,8 +3,8 @@
 #include <fstream>
 using namespace std;
 #define GRASS_SIZE 128
-#define START_ACCUMULATE 100
-#define AVALANCHE_HEIGHT 300
+#define START_ACCUMULATE 80
+#define AVALANCHE_HEIGHT 100
 Ground::Ground(int x, int y, int z, int size){
     LoadRawFile("./Data/Terrain.raw", MAP_TEXTURE_SIZE * MAP_TEXTURE_SIZE);
     textureLoaded = false;
@@ -1027,9 +1027,6 @@ void Ground::drawSnow(){
 					}
                 }
             }
-			if(snowCnt > 0){
-				snowCnt = snowCnt + 1 - 1;
-			}
             int ix = (int) (x + mapSize / 2);
             int iz = (int) (z + mapSize / 2);
             //Get which rectangle (x,z) belongs to
@@ -1101,15 +1098,15 @@ void Ground::melt(){
                 int minCnt = 0;
                 for(float i = 0 ; i < PRINT_STEP ; i += (1.0 / (float)SNOW_PRECISION)){
                     for(float j = 0 ; j < PRINT_STEP ; j += (1.0 / (float)SNOW_PRECISION)){
+                        if(minCnt >= meltSpeed){
+                            break;
+                        }
                         if(hasSnow[positionToIndex(i + x, j + z)] > 0){
                             hasSnow[positionToIndex(i + x, j + z)]--;
                             minCnt++;
                         }
-                        if(minCnt > meltSpeed){
-                            break;
-                        }
                     }
-                    if(minCnt > meltSpeed)
+                    if(minCnt >= meltSpeed)
                     {
                         break;
                     }
@@ -1124,6 +1121,6 @@ void Ground::melt(){
 }
 
 void Ground::setMeltingSpeed(int val){
-    meltSpeed = val * 10;
+    meltSpeed = val * 3;
 }
 
