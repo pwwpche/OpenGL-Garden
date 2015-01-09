@@ -188,7 +188,7 @@
          <x>7</x>
          <y>10</y>
          <width>291</width>
-         <height>161</height>
+         <height>111</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -282,71 +282,82 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <item>
-           <widget class="QLabel" name="label_10">
-            <property name="font">
-             <font>
-              <family>微软雅黑</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>纹理种类</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioFTexture1">
-            <property name="font">
-             <font>
-              <family>微软雅黑</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>白</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioFTexture2">
-            <property name="font">
-             <font>
-              <family>微软雅黑</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>灰</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioFTexture3">
-            <property name="font">
-             <font>
-              <family>微软雅黑</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>红</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioFTexture4">
-            <property name="font">
-             <font>
-              <family>微软雅黑</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>粉</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <layout class="QHBoxLayout" name="horizontalLayout_8"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>120</y>
+         <width>287</width>
+         <height>47</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_14">
+        <item>
+         <widget class="QLabel" name="label_10">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>纹理种类</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioFTexture2">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>灰</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioFTexture1">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>白</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioFTexture3">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>红</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioFTexture4">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>粉</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -420,7 +431,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
@@ -731,9 +742,6 @@
    <zorder>groupBox</zorder>
    <zorder>tabWidget</zorder>
    <zorder>buttonCreate</zorder>
-   <zorder>label</zorder>
-   <zorder>labelFallSpeed</zorder>
-   <zorder>scrollFalSpeed</zorder>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionLoad">

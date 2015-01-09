@@ -383,7 +383,7 @@ void GLTest::keyReleaseEvent2(QKeyEvent *e){
         return ;
     }
     repeat = 0;
-
+/*
     if(e->key() == Qt::Key_W){
 
         Tree newTree(10, 4.0, 3);
@@ -394,7 +394,7 @@ void GLTest::keyReleaseEvent2(QKeyEvent *e){
         trees.push_back(newTree);
         dLists.push_back(getTreeList());
     }
-
+*/
 
     switch (e->key()) {
     case Qt::Key_Left :
