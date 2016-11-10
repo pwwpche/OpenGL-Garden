@@ -66,11 +66,11 @@ Moreover, when drawing slices of terrain, we first get the number of flakes fall
 
 When drawing the ground, we first get the position and height of each vertex, and then scale the ground to avoid to have cliffs on the ground. Each square of the ground is composed by two triangles:
 ```
-V0------V1
+V3------V2
 |    /  |
 |   /   |
 |  /    |
-V2-----V3
+V0------V1
 Triangle1 : V0 -> V3 -> V1
 Triangle1: V0 -> V2 -> V3
 ```
